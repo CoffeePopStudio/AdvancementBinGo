@@ -1,0 +1,18 @@
+name: AdvancementBinGo
+version: '${version}'
+
+main: org.coffeepop.advancementbingo.AdvancementBinGo
+api-version: '26.1.2'
+
+author: Neamyoo
+
+commands:
+  bingo:
+    description: 成就Bingo 主指令
+    aliases: [ bingobingo ]
+    usage: /<command> <join|leave|lobby|setlobby|start|stop|reload|help>
+
+permissions:
+  advancementbingo.admin:
+    default: op
+    description: 管理成就Bingo游戏的权限
