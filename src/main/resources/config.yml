@@ -1,0 +1,50 @@
+# 成就Bingo 配置文件
+config-version: 3
+
+lobby:
+  # 等待大厅所在世界；不填或找不到时使用服务器第一个世界
+  world: "world"
+  x: 0.5
+  y: 100.0
+  z: 0.5
+  yaw: 0.0
+  pitch: 0.0
+  # 达到该人数后自动开始倒计时
+  required-players: 10
+  # 倒计时秒数
+  countdown-seconds: 30
+
+rooms:
+  # 创建多少个主世界房间（每个房间会附带独立地狱/末地）
+  count: 3
+  # 房间世界名前缀，例如 bingo_0, bingo_1, bingo_2
+  prefix: "bingo"
+  # 随机出生点半径（以世界中心/出生点为中心）
+  radius: 300
+  # 红蓝两队出生点之间的最小距离
+  min-team-distance: 120
+  # 出生点离地面高度（放在空中观察）
+  spawn-air-height: 25
+
+game:
+  # 胜利所需分数
+  win-score: 13
+  # 观察时间（秒）
+  observation-seconds: 5
+  # 观察结束后漂浮/缓降效果时长（秒）
+  float-seconds: 10
+  # 漂浮效果: SLOW_FALLING 或 LEVITATION
+  float-effect: "SLOW_FALLING"
+  # 成就卡难度配比（共25格）
+  easy-count: 12
+  medium-count: 8
+  hard-count: 5
+  # 游戏开始时的规则广播（{win-score} 会被替换为胜利分数）
+  rules:
+    - "&e完成成就卡上的成就可为队伍 +1 分"
+    - "&e率先达到 {win-score} 分的队伍获胜"
+    - "&e对方完成的成就在你的 GUI 中保密，不会显示"
+    - "&e游戏中按 潜行+F 打开成就 GUI"
+
+messages:
+  prefix: "&8[&6成就Bingo&8] "
