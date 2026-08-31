@@ -23,6 +23,8 @@ class RoomManager {
 
     fun getLobby(roomId: String): RoomLobby? = lobbies[roomId]
 
+    fun roomIds(): Set<String> = lobbies.keys
+
     fun joinRoom(player: Player, roomId: String): Boolean {
         val lobby = lobbies[roomId] ?: return false
         val location = lobbyLocations[roomId] ?: return false
