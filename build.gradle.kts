@@ -1,5 +1,7 @@
 plugins {
     id("java-library")
+    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.run.paper)
 }
 
@@ -10,10 +12,18 @@ repositories {
 
 dependencies {
     compileOnly(libs.paper.api)
+
+    implementation(libs.kotlin.stdlib)
+    implementation(libs.kotlin.reflect)
+    implementation(libs.kotlinx.serialization.json)
 }
 
 java {
     toolchain.languageVersion = JavaLanguageVersion.of(25)
+}
+
+kotlin {
+    jvmToolchain(25)
 }
 
 tasks {
