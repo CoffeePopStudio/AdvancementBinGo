@@ -1,23 +1,39 @@
-# bingo-main → Paper 移植进度
+# bingo-main → Paper Porting Roadmap
 
-> 目标：保留原项目“成就/卡牌/计分核心”，移植到 AdvancementBinGo Paper 插件，生产可用。
+> Goal: port the achievement/card/scoring core from `bingo-main` into the
+> AdvancementBinGo Paper plugin, keeping the core logic clean and production-ready.
 
-## 已完成
+## Architecture
 
-- [x] 项目加入 Kotlin 2.4 + kotlinx-serialization 支持
-- [x] `PortBingoObjective`：成就目标模型（含队伍完成状态）
-- [x] `PortBingoCardEntry` / `PortBingoCard`：5x5 卡牌模型、行列/对角线统计
-- [x] `PortCardGenerator`：按 TASK/GOAL/CHALLENGE + 深度自动分级，12/8/5 难度配比，极难成就低权重
-- [x] `PortCardMapRenderer` + `PortMapFactory`：Paper 原版地图渲染 5x5 卡片（先试 map）
-- [x] `PortTeam` / `PortGameState` / `PortScoreService`
-- [x] `PortAdvancementManager`：Bukkit Advancement 查询/清空
-- [x] `PortAdvancementObjectiveManager`：按队伍 tick 成就完成状态
+```
+core/       Pure Kotlin logic. No Bukkit/Paper dependencies.
+storage/    SQLite statistics storage.
+paper/      Bukkit/Paper implementations of core ports, map rendering, GUI.
+plugin/     (future) JavaPlugin entry, commands, listeners, world/lobby management.
+```
 
-## 待办
+Current root module still contains the legacy Java plugin and will be moved into
+`plugin/` or `paper/` in a later step.
 
-- [ ] 将 Kotlin 核心接入现有 Java 插件（替换/桥接 `BingoCard`）
-- [ ] 游戏模式：Lockout / Hidden Items / Consume Items / Inventory Mode
-- [ ] 非成就目标：Item / Stats / Scoreboard / OneOf / SomeOf / AllOf / Inverse / Opponent
-- [ ] 统计系统（SQLDelight 或轻量存储）
-- [ ] Map 渲染如果效果不好，回退到现有 GUI
-- [ ] 生产环境：异步世界重置、自动开局、断线重连等已存在，需与 Kotlin 核心整合
+## Done
+
+- [x] Gradle multi-module setup: `core`, `storage`, `paper`
+- [x] `core`: pure BingoObjective / BingoCard / Team / GameMode models
+- [x] `core`: CardGenerator with easy/medium/hard weighted selection
+- [x] `core`: ObjectiveTracker using platform ports
+- [x] `core`: ScoreService with Lockout support
+- [x] `storage`: SQLite StatsRepository
+- [x] `paper`: AdvancementPort / ItemPort / StatsPort implementations
+- [x] `paper`: ObjectiveResolver for Bukkit advancements
+- [x] `paper`: Map renderer + map item factory (colors + numbers)
+
+## Next Steps
+
+- [ ] Per-room mode configuration and per-room waiting lobbies
+- [ ] Room selection commands (`/bingo join <room>`)
+- [ ] Independent per-room countdown and auto-start
+- [ ] Item and Stats objective providers
+- [ ] Lockout and Hidden Items game mode behavior
+- [ ] GUI implementation (fallback if map is not good enough)
+- [ ] Integrate Kotlin core into the existing Java plugin
+- [ ] Keep async world reset, rejoin, and production features
